@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is it Louis Weinstein's birthday?</title>
+<meta name="description" content="Is it Louis Weinstein's birthday? Find out.">
+<meta property="og:title" content="Is it Louis Weinstein's birthday?">
+<meta property="og:description" content="Find out.">
+<style>
+  :root { --bg: #ffffff; --fg: #111111; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #111111; --fg: #f2f2f2; } }
+  html, body { height: 100%; margin: 0; }
+  body {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: var(--bg); color: var(--fg); text-align: center; padding: 0 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  }
+  h1 { font-size: clamp(1rem, 3vw, 1.5rem); font-weight: 500; margin: 0 0 1rem; opacity: .7; }
+  #answer { font-size: clamp(5rem, 25vw, 14rem); font-weight: 800; line-height: 1; margin: 0; }
+  /* Birthday mode */
+  body.yes { --bg: #ffd400; --fg: #111111; }
+  /* Sizes the Vimeo embed; 73vh keeps the 4:3 player to ~55vh tall */
+  #video { display: none; width: min(90vw, 720px, 73vh); margin-top: 1.5rem; border-radius: 8px; overflow: hidden; }
+  body.yes #video { display: block; }
+</style>
+</head>
+<body>
+  <h1>Is it Louis Weinstein's birthday?</h1>
+  <p id="answer">&hellip;</p>
+  <!-- Vimeo embed; src lives in data-src so it only loads on birthdays -->
+  <div id="video">
+    <div style="padding:75% 0 0 0;position:relative;"><iframe data-src="https://player.vimeo.com/video/1236907706?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="birthday"></iframe></div>
+  </div>
+  <noscript><p>Enable JavaScript to find out.</p></noscript>
+
+<script>
+  // Louis's birthdays (month is 1-12)
+  var BIRTHDAYS = [
+    { month: 11, day: 28 },
+    { month: 0,  day: 0 }   // PLACEHOLDER: set second date (0/0 never matches)
+  ];
+
+  // Checks against the visitor's local date; ?test=yes forces birthday mode
+  var now = new Date();
+  var isBirthday = /[?&]test=yes\b/.test(location.search) || BIRTHDAYS.some(function (b) {
+    return now.getMonth() + 1 === b.month && now.getDate() === b.day;
+  });
+
+  document.getElementById('answer').textContent = isBirthday ? 'YES' : 'NO';
+  if (isBirthday) {
+    document.body.classList.add('yes');
+
+    // Load the Vimeo player (autoplay/muted/loop set in the embed URL)
+    var frame = document.querySelector('#video iframe');
+    frame.src = frame.getAttribute('data-src');
+  }
+</script>
+</body>
+</html>
